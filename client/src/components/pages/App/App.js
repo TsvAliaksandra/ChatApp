@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class App extends Component {
   render() {
+    console.log(process.env.TEST1);
     return (
       <div className="App">
         <header className="App-header">

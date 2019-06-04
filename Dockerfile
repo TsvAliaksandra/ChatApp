@@ -1,7 +1,9 @@
 FROM node:10-alpine
 
-#ARG NODE_ENV=production
-#ENV NODE_ENV=${NODE_ENV}
+ARG TEST
+ENV TEST $TEST
+
+RUN echo $TEST
 
 # Go to client directory
 WORKDIR /usr/src/app
