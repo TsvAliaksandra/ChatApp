@@ -1,9 +1,11 @@
 FROM node:10-alpine
 
-ARG TEST
-ENV TEST $TEST
+MAINTAINER Alex_Tsv
 
-RUN echo $TEST
+#ARG TEST
+#ENV TEST $TEST
+
+RUN echo $HELLO
 
 # Go to client directory
 WORKDIR /usr/src/app
@@ -14,6 +16,7 @@ RUN npm install
 
 COPY client/. /usr/src/app/client/
 
+#Build client app
 WORKDIR /usr/src/app/client/
 
 RUN npm run build
@@ -22,12 +25,17 @@ RUN npm run build
 WORKDIR /usr/src/app/server
 
 # Install server dependencies
-COPY server/package*.json /usr/src/app/server/
+COPY /server/package*.json /usr/src/app/server/
 RUN npm install
 
 # Copy server files
 COPY server/. /usr/src/app/server/
 
-EXPOSE 8080
+
+COPY ./wait-for-it.sh /usr/src/app/
+RUN chmod +x /usr/src/app/wait-for-it.sh
+
+
+#EXPOSE 8080
 
 CMD ["npm", "run", "start"]

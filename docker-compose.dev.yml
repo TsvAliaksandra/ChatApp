@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  chat-app-dev:
+    driver: bridge
+
+services:
+  chat-app-dev:
+    image: chat-app-dev
+    ports:
+      - 3000:3000
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - TEST=testdev
+    environment:
+      TEST1: testdev1
+    volumes:
+      - ./server/:/usr/src/app/server/
+      - /usr/src/app/server/node_modules
+    networks:
+      - chat-app-dev
+
+  chat-app-dev-server:
+    image: chat-app-dev:latest
+    ports:
+      - 3011:3011
+    command: bash -c "cd ../client && npm run start"
+    volumes:
+      - ../client/:/usr/src/app/client/
+      - /usr/src/app/client/node_modules
+    networks:
+      - chat-app-dev
