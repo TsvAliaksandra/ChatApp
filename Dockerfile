@@ -1,41 +1,34 @@
-FROM node:10-alpine
+FROM node:10
 
 MAINTAINER Alex_Tsv
 
-#ARG TEST
-#ENV TEST $TEST
-
-RUN echo $HELLO
+ENV NODE_ENV=${NODE_ENV}
 
 # Go to client directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/client
 
 # Install client dependencies
-COPY /client/package*.json /usr/src/app/client/
+COPY /client/package*.json ./
 RUN npm install
 
-COPY client/. /usr/src/app/client/
+COPY client/. .
 
 #Build client app
-WORKDIR /usr/src/app/client/
-
 RUN npm run build
 
 # Go to server directory
 WORKDIR /usr/src/app/server
 
 # Install server dependencies
-COPY /server/package*.json /usr/src/app/server/
+COPY /server/package*.json ./
 RUN npm install
 
 # Copy server files
-COPY server/. /usr/src/app/server/
+COPY server/. .
 
+#COPY ./wait-for-it.sh /usr/src/app/
+#RUN chmod +x /usr/src/app/wait-for-it.sh
 
-COPY ./wait-for-it.sh /usr/src/app/
-RUN chmod +x /usr/src/app/wait-for-it.sh
-
-
-#EXPOSE 8080
+EXPOSE 8080
 
 CMD ["npm", "run", "start"]

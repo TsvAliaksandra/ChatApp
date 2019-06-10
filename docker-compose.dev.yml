@@ -8,14 +8,12 @@ services:
   chat-app-dev:
     image: chat-app-dev
     ports:
-      - 3000:3000
+      - 3010:3010
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        - TEST=testdev
-    environment:
-      TEST1: testdev1
+        NODE_ENV: development
     volumes:
       - ./server/:/usr/src/app/server/
       - /usr/src/app/server/node_modules
@@ -25,10 +23,10 @@ services:
   chat-app-dev-server:
     image: chat-app-dev:latest
     ports:
-      - 3011:3011
+      - 3000:3000
     command: bash -c "cd ../client && npm run start"
     volumes:
-      - ../client/:/usr/src/app/client/
+      - ./client/:/usr/src/app/client/
       - /usr/src/app/client/node_modules
     networks:
       - chat-app-dev
