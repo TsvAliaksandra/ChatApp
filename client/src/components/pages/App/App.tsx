@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-class App extends Component {
+interface IProps {}
+
+class App extends Component <IProps> {
   render() {
     console.log(process.env);
     return (
