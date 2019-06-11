@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  chat-app-prod:
+    driver: bridge
+
+services:
+  chat-app-dev:
+    image: chat-app-prod
+    ports:
+      - 3030:3010
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - chat-app-prod
